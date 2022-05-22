@@ -1,0 +1,36 @@
+CREATE TABLE `ptm_pay_out` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `remittance_amount` DECIMAL(50,2) NULL,
+  `account_number` VARCHAR(100) NULL,
+  `beneficiary_name` VARCHAR(100) NULL,
+  `route` VARCHAR(45) NULL,
+  `user_id` VARCHAR(100) NULL,
+  `api_key` VARCHAR(500) NULL,
+  `mobile_number` VARCHAR(45) NULL,
+  `ifsc_code` VARCHAR(45) NULL,
+  `client_id` VARCHAR(500) NULL,
+  `type` VARCHAR(45) NULL,
+  `txn_id` VARCHAR(500) NULL,
+  `client_txn_id` VARCHAR(500) NULL,
+  `client_pay_out_charge` DECIMAL(19,2) NULL,
+  `pay_out_charge` DECIMAL(19,2) NULL,
+  `profit_amount` DECIMAL(19,2) NULL,
+  `status` ENUM('INITIATED', 'DONE', 'PENDING', 'FAIL', 'INPROCESS', 'SUCCESS', 'FAILED') NULL,
+  `created_by` VARCHAR(45) NULL,
+  `created_date` VARCHAR(45) NULL,
+  `updated_by` VARCHAR(45) NULL,
+  `updated_date` VARCHAR(45) NULL,
+  `is_deleted` VARCHAR(45) NULL DEFAULT 'N',
+  `is_status` VARCHAR(45) NULL DEFAULT 'N',
+  `is_published` VARCHAR(45) NULL DEFAULT 'Y',
+  PRIMARY KEY (`id`));
+
+
+CREATE TABLE `merchant_pay_out_config` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `min_range` INT NULL,
+  `max_range` INT NULL,
+  `amount` DECIMAL(19,2) NULL,
+  `merchant_name` VARCHAR(45) NULL,
+  `merchange_code` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));

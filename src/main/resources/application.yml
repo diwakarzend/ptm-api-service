@@ -1,0 +1,23 @@
+server: 
+  port: 8083
+spring: 
+  application: 
+    name: ptmApiService
+  data.mongodb.uri: "mongodb://localhost:27017/ptm_api_service_db?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000"
+  datasource: 
+    url: "jdbc:mysql://localhost:3306/ptm_api_service?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true"
+    username: root
+    password: root 
+  jpa: 
+    database: mysql
+    generate-ddl: false
+    hibernate: 
+      ddl-auto: none
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+jwt:
+ secret: testing
+ 
+spring.main.allow-bean-definition-overriding: true
+admin:
+  uuid: 1ba336de-16e6-11ec-9621-0242ac130002
