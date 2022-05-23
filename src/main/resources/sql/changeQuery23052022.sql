@@ -1,4 +1,5 @@
-  CREATE TABLE `ptm_api_service`.`ptm_ptp_detail` (
+#table ptm_ptp_detail  
+CREATE TABLE `ptm_api_service`.`ptm_ptp_detail` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_uuid` VARCHAR(100) NULL,
   `vendor_id` VARCHAR(100) NULL,
