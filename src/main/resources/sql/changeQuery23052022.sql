@@ -6,7 +6,7 @@ CREATE TABLE `ptm_api_service`.`ptm_ptp_detail` (
   `qr_details` VARCHAR(100) NULL,
   `total_limit` DOUBLE(10,2) NOT NULL,
   `daily_limit` DOUBLE(10,2) NOT NULL,
-  `running_date` DATETIME NULL,
+  `running_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` VARCHAR(100) NULL,
   `updated_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

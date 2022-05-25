@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,6 +91,23 @@ public class PtpResourceController {
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdDate").descending());
 		final Page<PtpDTO> page = ptpService.getAllManagedPtp(pageable);
 
+		return new ResponseEntity<CustomResponse>(
+				new CustomResponse(SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessCode(),
+						SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessMessage(), page.getContent()),
+				HttpStatus.OK);
+	}
+	
+	/**
+	 * GET /ptp : get all ptp.
+	 *
+	 * @param pageable the pagination information
+	 * @return the ResponseEntity with status 200 (OK) and with body all ptp
+	 */
+	@GetMapping("/ptp-details/{id}")
+	public ResponseEntity<CustomResponse> getAllPtpsForMerchant(@PathVariable(name = "userUUID") String userUUID, @RequestParam(defaultValue = "0") Integer pageNo,
+			@RequestParam(defaultValue = "100") Integer pageSize) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdDate").descending());
+		final Page<PtpDTO> page = ptpService.getAllPtpByMerchantRole(pageable, userUUID);
 		return new ResponseEntity<CustomResponse>(
 				new CustomResponse(SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessCode(),
 						SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessMessage(), page.getContent()),
