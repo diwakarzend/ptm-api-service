@@ -38,7 +38,10 @@ public enum SuccessCode {
 	BILL_FETCH_SUCCESSFULLY("INFO029", "Bill fetch successfully"),
 	BILL_STATUS_SUCCESSFULLY("INFO030", "Bill status fetch successfully!"),
 	PAYOUT_INIT_SUCCESSFULLY("INFO031", "PayOut Initiated successfully!"),
-	PAYOUT_SUCCESSFULLY("INFO031", "PayOut done successfully!");
+	PAYOUT_SUCCESSFULLY("INFO031", "PayOut done successfully!"),
+	PTP_CREATED_SUCCESSFULLY("INFO033", "New ptp created Successfully"),
+	PTP_UPDATE_SUCCESSFULLY("INFO034", "New ptp update Successfully"),
+	PTP_SERACH_RESULT_SUCCESSFULLY("INFO035", "ptp result found Successfully");
 
 
 	private final String code;
