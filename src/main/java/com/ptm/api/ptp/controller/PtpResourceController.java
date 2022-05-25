@@ -12,29 +12,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ptm.api.exception.code.SuccessCode;
-import com.ptm.api.user.controller.UserResourceController;
-import com.ptm.api.user.controller.dto.UserDTO;
+import com.ptm.api.ptp.dto.PtpDTO;
+import com.ptm.api.ptp.service.PtpService;
 import com.ptm.api.user.controller.vo.CustomResponse;
-import com.ptm.api.user.service.UserService;
 
+/**
+ * @author Aman Garg
+ *
+ */
 @RestController
 @RequestMapping("/api/ptp/")
 public class PtpResourceController {
-	
-	private final Logger log = LoggerFactory.getLogger(UserResourceController.class);
 
-	private final UserService userService;
+	private final Logger log = LoggerFactory.getLogger(PtpResourceController.class);
 
-	public PtpResourceController(UserService userService) {
+	private final PtpService ptpService;
 
-		this.userService = userService;
+	public PtpResourceController(PtpService ptpService) {
+		this.ptpService = ptpService;
 	}
 
 	/**
@@ -42,49 +43,52 @@ public class PtpResourceController {
 	 * <p>
 	 * Creates a new ptp
 	 * 
+	 * @param ptpDTO the ptp to update
+	 * @return the ResponseEntity with status 200 (OK) and with body
+	 * 
 	 */
 	@PostMapping("/create-ptp")
-	//@Secured({ AuthoritiesConstants.ADMIN, AuthoritiesConstants.VENDOR })
-	public ResponseEntity<CustomResponse> createPtp(@Valid @RequestBody UserDTO userDTO) {
-		log.info("REST request to save User : {}", userDTO);
+	public ResponseEntity<CustomResponse> createPtp(@Valid @RequestBody PtpDTO ptpDTO) {
+		log.info("REST request to save ptp detail : {}", ptpDTO);
 
 		return new ResponseEntity<CustomResponse>(
 				new CustomResponse(SuccessCode.PTP_CREATED_SUCCESSFULLY.getSuccessCode(),
-						SuccessCode.PTP_CREATED_SUCCESSFULLY.getSuccessMessage(), userService.createUser(userDTO)),
+						SuccessCode.PTP_CREATED_SUCCESSFULLY.getSuccessMessage(),
+						ptpService.createPTP(ptpDTO)),
 				HttpStatus.OK);
 
 	}
 
 	/**
-	 * PUT /users : Updates an existing ptp.
+	 * PUT /update-ptp : Updates an existing ptp.
 	 *
 	 * @param ptpDTO the ptp to update
-	 * @return the ResponseEntity with status 200 (OK) and with body the updated
-	 *         user
+	 * @return the ResponseEntity with status 200 (OK) and with body the updated ptp
 	 *
 	 */
-	@PutMapping("/update-ptp")
-	//@Secured(AuthoritiesConstants.ADMIN)
-	public ResponseEntity<CustomResponse> updatePtp(@Valid @RequestBody UserDTO userDTO) {
-		log.info("request to update User : {}", userDTO);
 
-		return new ResponseEntity<CustomResponse>(
-				new CustomResponse(SuccessCode.PTP_UPDATE_SUCCESSFULLY.getSuccessCode(),
-						SuccessCode.PTP_UPDATE_SUCCESSFULLY.getSuccessMessage(), userService.updateUser(userDTO)),
-				HttpStatus.OK);
-	}
+	/*
+	 * @PutMapping("/update-ptp") public ResponseEntity<CustomResponse>
+	 * updatePtp(@Valid @RequestBody PtpDTO ptpDTO) {
+	 * log.info("request to update ptp : {}", ptpDTO);
+	 * 
+	 * return new ResponseEntity<CustomResponse>( new
+	 * CustomResponse(SuccessCode.PTP_UPDATE_SUCCESSFULLY.getSuccessCode(),
+	 * SuccessCode.PTP_UPDATE_SUCCESSFULLY.getSuccessMessage(),
+	 * ptpService.updatePtp(ptpDTO)), HttpStatus.OK); }
+	 */
 
 	/**
-	 * GET /users : get all ptp.
+	 * GET /ptp : get all ptp.
 	 *
 	 * @param pageable the pagination information
-	 * @return the ResponseEntity with status 200 (OK) and with body all users
+	 * @return the ResponseEntity with status 200 (OK) and with body all ptp
 	 */
 	@GetMapping("/ptp-details")
 	public ResponseEntity<CustomResponse> getAllPtps(@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "100") Integer pageSize) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdDate").descending());
-		final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
+		final Page<PtpDTO> page = ptpService.getAllManagedPtp(pageable);
 
 		return new ResponseEntity<CustomResponse>(
 				new CustomResponse(SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessCode(),
@@ -92,5 +96,4 @@ public class PtpResourceController {
 				HttpStatus.OK);
 	}
 
-	
 }

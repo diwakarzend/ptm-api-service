@@ -1,9 +1,11 @@
 server: 
   port: 8083
+#  servlet:
+#    context-path: /ptmservice/
 spring: 
   application: 
     name: ptmApiService
-  data.mongodb.uri: "mongodb://localhost:27017/ptm_api_service_db?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000"
+  data.mongodb.uri: "mongodb://localhost:27017/ptm_api_service?serverSelectionTimeoutMS=2000&connectTimeoutMS=2000"
   datasource: 
     url: "jdbc:mysql://localhost:3306/ptm_api_service?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true"
     username: root
