@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.JsonObject;
 import com.ptm.api.exception.code.SuccessCode;
 import com.ptm.api.ptp.dto.PtpDTO;
 import com.ptm.api.ptp.service.PtpService;
@@ -80,7 +81,7 @@ public class PtpResourceController {
 	 */
 
 	/**
-	 * GET /ptp : get all ptp.
+	 * GET /ptp-details : get all ptp.
 	 *
 	 * @param pageable the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all ptp
@@ -98,16 +99,33 @@ public class PtpResourceController {
 	}
 	
 	/**
-	 * GET /ptp : get all ptp.
+	 * GET /ptp-details : get all ptp for merchant.
 	 *
 	 * @param pageable the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and with body all ptp
 	 */
 	@GetMapping("/ptp-details/{id}")
-	public ResponseEntity<CustomResponse> getAllPtpsForMerchant(@PathVariable(name = "userUUID") String userUUID, @RequestParam(defaultValue = "0") Integer pageNo,
+	public ResponseEntity<CustomResponse> getAllPtpsByMerchantId(@PathVariable(name = "userUUID") String userUUID, @RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "100") Integer pageSize) {
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdDate").descending());
 		final Page<PtpDTO> page = ptpService.getAllPtpByMerchantRole(pageable, userUUID);
+		return new ResponseEntity<CustomResponse>(
+				new CustomResponse(SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessCode(),
+						SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessMessage(), page.getContent()),
+				HttpStatus.OK);
+	}
+	
+	/**
+	 * GET /vendor-details : get all vendor.
+	 *
+	 * @param pageable the pagination information
+	 * @return the ResponseEntity with status 200 (OK) and with body all vendor
+	 */
+	@GetMapping("/vendor-details")
+	public ResponseEntity<CustomResponse> getAllVendorDetails(@RequestParam(defaultValue = "0") Integer pageNo,
+			@RequestParam(defaultValue = "100") Integer pageSize) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by("createdDate").descending());
+		final Page<PtpDTO> page = ptpService.getAllManagedPtp(pageable);
 		return new ResponseEntity<CustomResponse>(
 				new CustomResponse(SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessCode(),
 						SuccessCode.PTP_SERACH_RESULT_SUCCESSFULLY.getSuccessMessage(), page.getContent()),

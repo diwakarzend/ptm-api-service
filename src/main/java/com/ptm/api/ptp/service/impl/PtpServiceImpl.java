@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ptm.api.client.merchant.entity.PaymentBrand;
+import com.ptm.api.client.merchant.repository.PaymentBrandRepository;
 import com.ptm.api.ptp.dto.PtpDTO;
 import com.ptm.api.ptp.entity.Ptp;
 import com.ptm.api.ptp.repository.PtpRepository;
@@ -22,6 +24,9 @@ public class PtpServiceImpl implements PtpService {
 	private PtpRepository ptpRepository;
 
 	@Autowired
+	private PaymentBrandRepository paymentBrandRepository;
+
+	@Autowired
 	private ModelMapper mapper;
 
 	@Override
@@ -32,18 +37,6 @@ public class PtpServiceImpl implements PtpService {
 		return ptpDTO;
 	}
 
-	/*
-	 * @Transactional public PtpDTO updatePtp(PtpDTO ptpDTO) { return
-	 * Optional.of(existingUser).filter(Optional::isPresent).map(Optional::get).map(
-	 * user -> { user.setUsername(userDTO.getUserName());
-	 * user.setFirstName(userDTO.getFirstName());
-	 * user.setLastName(userDTO.getLastName()); user.setEmail(userDTO.getEmail());
-	 * user.setLangKey(userDTO.getLangKey());
-	 * 
-	 * return user; }).map(PtpDTO::new).orElseThrow(() -> new
-	 * UserServiceException(UserExceptionCodeAndMassage.GENERAL_ERROR)); }
-	 */
-
 	@Override
 	public Page<PtpDTO> getAllManagedPtp(Pageable pageable) {
 		return ptpRepository.findAll(pageable).map(PtpDTO::new);
@@ -52,6 +45,13 @@ public class PtpServiceImpl implements PtpService {
 	@Override
 	public Page<PtpDTO> getAllPtpByMerchantRole(Pageable pageable, String uuid) {
 		return ptpRepository.findAllByUserUUID(pageable, uuid).map(PtpDTO::new);
+	}
+
+	@Override
+	public Page<PaymentBrand> getAllVendorDetails(Pageable pageable) {
+		// TODO Auto-generated method stub
+		// return paymentBrandRepository.findAll(pageable).map(PaymentBrand::new);
+		return null;
 	}
 
 }
